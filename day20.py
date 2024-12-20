@@ -13,9 +13,6 @@ while search:
     count += 1
 
 path_list = [*zip(*sorted((d,p) for p,d in path.items()))][1]
-assert start == path_list[0]
-assert end == path_list[-1]
-assert len(path_list) == len(path)
 
 p2 = p1 = 0
 track = set()
