@@ -35,9 +35,7 @@ for p in path_list:
     for d in range(4):
         if path.get(p++1j**d*2,0)-path[p]-2>=100:
             p1 += 1
-    for x in range(-20,21):
-        y = 20 - abs(x)
-        track |= {p+x+1j*y, p+x-1j*y}
+    track |= {p+x+1j*y for x in range(-20,21) for y in (20-abs(x),abs(x)-20)}
     track = {q for q in track if (dist:=manhattan(q-p))<=20 and path.get(q, 0)-path[p]-dist>=100}
     p2 += len(track)
 print(p1, p2)
