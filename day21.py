@@ -14,7 +14,8 @@ arrows="""\
 
 hoola=[]
 
-def path(keypad, a, b, level):
+@cache
+def shortest_path(keypad, a, b, level):
     stride = keypad.find("\n")+1
     keya = keypad.find(a)
     keyb = keypad.find(b)
@@ -23,11 +24,11 @@ def path(keypad, a, b, level):
 
     result = []
     if keypad[keyb-dx]!=" ":
-        result += ["^v"[dy>0]*abs(dy)+"<>"[dx>0]*abs(dx)+"A"]
+        result += [expand("^v"[dy>0]*abs(dy)+"<>"[dx>0]*abs(dx)+"A",level-1)]
     if keypad[keya+dx]!=" ":
-        result += ["<>"[dx>0]*abs(dx)+"^v"[dy>0]*abs(dy)+"A"]
+        result += [expand("<>"[dx>0]*abs(dx)+"^v"[dy>0]*abs(dy)+"A",level-1)]
 
-    return min(result,key=lambda x:expand(x,level-1))
+    return min(result)
 
 @cache
 def expand(keys, level, keypad=arrows):
@@ -35,7 +36,7 @@ def expand(keys, level, keypad=arrows):
         return len(keys)
     result = 0
     for a,b in zip("A"+keys, keys):
-        result += expand(path(keypad,a,b,level),level-1)
+        result += shortest_path(keypad,a,b,level)
     return result
 
 p2 = p1 = 0
