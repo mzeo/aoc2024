@@ -28,7 +28,7 @@ def dijkstra(start, end, edges, init=0, combine=int.__add__):
             heapq.heappush(search,(combine(score,w),q,p))
 
 @cache
-def min_path(keypad, a, b, level):
+def min_path(a, b, level, keypad=arrows):
     stride = keypad.find("\n")+1
     start = keypad.find(a)
     end = keypad.find(b)
@@ -40,7 +40,7 @@ def min_path(keypad, a, b, level):
             q = p + d
             # Consider possible ones
             if 0 <= q < len(keypad) and keypad[q] not in " \n":
-                yield (level == 0 or min_path(arrows,f or "A",k,level-1)), (q, k)
+                yield (level == 0 or min_path(f or "A",k,level-1)), (q, k)
 
     return dijkstra((start, None), (end, "A"), edges)
 
@@ -49,7 +49,7 @@ def sequence_length(keys, level, keypad=arrows):
         return len(keys)
     result = 0
     for a,b in zip("A"+keys, keys):
-        result += min_path(keypad,a,b,level)
+        result += min_path(a,b,level,keypad)
     return result
 
 p2 = p1 = 0
