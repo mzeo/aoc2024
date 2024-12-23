@@ -13,8 +13,7 @@ def max_clique(remaining, current=set(), best=set()):
     while remaining:
         p = remaining.pop()
         if current & graph[p] == current:
-            clique = max_clique(graph[p] & remaining, current | {p}, best)
-            best = max(best, clique, key=len)
+            best = max_clique(graph[p] & remaining, current | {p}, best)
     return best
 
 
